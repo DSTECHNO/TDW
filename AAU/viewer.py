@@ -222,7 +222,7 @@ if view_tab == "Thermal Digital Twin":
         "Maximum Points (3D only)", 
         min_value=10000, 
         max_value=50000, 
-        value=20000,
+        value=25000,
         step=5000,
         help="More points = slower performance"
     )
@@ -377,12 +377,12 @@ elif view_tab == "Thermal Digital Twin":
                 z=z_plot,
                 mode="markers",
                 marker=dict(
-                    size=3,
+                    size=2,
                     color=f_plot,
                     colorscale="Turbo",
                     cmin=cmin,
                     cmax=cmax,
-                    opacity=0.8,
+                    opacity=0.7,
                     colorbar=dict(
                         title=dict(
                             text=color_label,
