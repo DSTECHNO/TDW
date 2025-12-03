@@ -274,7 +274,7 @@ with logo_col2:
     st.markdown("""
     <div style='text-align: center; padding: 10px;'>
         <a href='https://dstechs.net/' target='_blank'>
-            <img src='https://raw.githubusercontent.com/DSTECHNO/TDW/AAU/main/dstech_logo.png' 
+            <img src='https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/dstech_logo.png' 
                  alt='D&S Tech' style='width: 100%; max-width: 120px;'>
         </a>
     </div>
@@ -299,7 +299,7 @@ if view_tab == "About":
     
     # AAU Building Image
     st.image(
-        "https://raw.githubusercontent.com/DSTECHNO/TDW/AAU/main/aau.png",
+        "https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/aau.png",
         caption="AAU BUILD - Institut for Byggeri, By og Miljø",
         width=500
     )
