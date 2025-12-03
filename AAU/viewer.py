@@ -126,7 +126,7 @@ st.markdown("""
 
 st.title("Thermal Digital Twin for Aalborg University (AAU) Pilot")
 
-mesh, T_field, U_field = load_npz_case("validationCase.npz")
+mesh, T_field, U_field = load_npz_case("AAU/validationCase.npz")
 
 centers = mesh.cell_centers().points
 x = centers[:, 0]
