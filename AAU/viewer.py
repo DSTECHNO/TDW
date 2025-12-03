@@ -5,7 +5,7 @@ from pyvista import UnstructuredGrid
 from scipy.interpolate import griddata
 
 # -------------------------------------------------
-# 1. PASSWORD AUTHENTICATION (BURAYA YAPIŞTIRIN)
+# 1. PASSWORD AUTHENTICATION
 # -------------------------------------------------
 def check_password():
     """Returns `True` if the user had the correct password."""
