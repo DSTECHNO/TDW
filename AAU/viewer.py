@@ -397,32 +397,7 @@ elif view_tab == "Thermal Digital Twin":
         # -----------------------------------------
         if mode == "3D Scatter":
             fig = go.Figure()
-
-            # --- 3D SCATTER OF FIELD ---
-            fig.add_trace(go.Scatter3d(
-                x=x_plot,
-                y=y_plot,
-                z=z_plot,
-                mode="markers",
-                marker=dict(
-                    size=2,
-                    color=f_plot,
-                    colorscale="Turbo",
-                    cmin=cmin,
-                    cmax=cmax,
-                    opacity=0.85,
-                    colorbar=dict(
-                        title=dict(
-                            text=color_label,
-                            font=dict(color="black", size=14)
-                        ),
-                        tickfont=dict(color="black", size=12),
-                    ),
-                ),
-                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
-                              color_label + ': %{marker.color:.3f}<extra></extra>'
-            ))
-
+            
             # --- OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
             try:
                 gx, gy, gz, gi, gj, gk = load_outer_geometry("AAU/validationCase.vtk")
@@ -449,6 +424,33 @@ elif view_tab == "Thermal Digital Twin":
                 ))
             except Exception as e:
                 st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")
+                
+            # --- 3D SCATTER OF FIELD ---
+            fig.add_trace(go.Scatter3d(
+                x=x_plot,
+                y=y_plot,
+                z=z_plot,
+                mode="markers",
+                marker=dict(
+                    size=2,
+                    color=f_plot,
+                    colorscale="Turbo",
+                    cmin=cmin,
+                    cmax=cmax,
+                    opacity=0.85,
+                    colorbar=dict(
+                        title=dict(
+                            text=color_label,
+                            font=dict(color="black", size=14)
+                        ),
+                        tickfont=dict(color="black", size=12),
+                    ),
+                ),
+                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
+                              color_label + ': %{marker.color:.3f}<extra></extra>'
+            ))
+
+
                             
             fig.update_layout(
                 height=700,
