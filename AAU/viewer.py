@@ -116,6 +116,61 @@ def interpolate_slice(axis1_s, axis2_s, f_s, grid_resolution):
     return grid_axis1, grid_axis2, grid_field
 
 # -------------------------------------------------
+# DENSITY-AWARE DOWNSAMPLING (MESH SIKLIĞINA GÖRE)
+# -------------------------------------------------
+@st.cache_data
+def density_aware_downsample(x, y, z, field, max_points: int, n_side: int = 20):
+    """
+    Mesh'in sık olduğu bölgelerde daha az, seyrek olduğu bölgelerde göreceli olarak
+    daha fazla nokta bırakacak şekilde downsample eder.
+    Voxel (3D grid) içinde yerel nokta sayısına göre ağırlıklandırma yapar.
+    """
+    N = x.size
+    if N <= max_points:
+        return x, y, z, field
+
+    # Domain sınırları
+    xmin, xmax = float(x.min()), float(x.max())
+    ymin, ymax = float(y.min()), float(y.max())
+    zmin, zmax = float(z.min()), float(z.max())
+
+    # Bölümler arası sıfır bölme hatasını engelle
+    ex = xmax - xmin if xmax > xmin else 1e-9
+    ey = ymax - ymin if ymax > ymin else 1e-9
+    ez = zmax - zmin if zmax > zmin else 1e-9
+
+    # Her noktayı 3D grid hücresine (voxel) ata
+    ix = ((x - xmin) / ex * n_side).astype(int)
+    iy = ((y - ymin) / ey * n_side).astype(int)
+    iz = ((z - zmin) / ez * n_side).astype(int)
+
+    ix = np.clip(ix, 0, n_side - 1)
+    iy = np.clip(iy, 0, n_side - 1)
+    iz = np.clip(iz, 0, n_side - 1)
+
+    # Tek indeks (key) ile voxel kimliği
+    key = ix + n_side * (iy + n_side * iz)
+
+    # Her voxel'de kaç nokta var?
+    counts = np.bincount(key)
+    # Her nokta için kendi voxel'indeki nokta sayısı (yerel yoğunluk)
+    density = counts[key]  # her zaman > 0
+
+    # Yoğunluğa ters orantılı ağırlık: yoğun yerde küçük, seyrek yerde büyük
+    weights = 1.0 / density
+    weights_sum = weights.sum()
+    if weights_sum <= 0:
+        # Fallback (teorik olarak olmaması lazım)
+        weights = np.ones_like(weights) / len(weights)
+    else:
+        weights = weights / weights_sum
+
+    rng = np.random.default_rng(42)
+    idx = rng.choice(N, size=max_points, replace=False, p=weights)
+
+    return x[idx], y[idx], z[idx], field[idx]
+
+# -------------------------------------------------
 # STREAMLIT SETTINGS
 # -------------------------------------------------
 st.set_page_config(
@@ -381,14 +436,9 @@ elif view_tab == "Thermal Digital Twin":
         st.subheader(viz_title)
 
         # Downsampling for 3D
-        N = x.size
-        if N > max_points:
-            rng = np.random.default_rng(42)
-            idx = rng.choice(N, size=max_points, replace=False)
-            x_plot, y_plot, z_plot = x[idx], y[idx], z[idx]
-            f_plot = field[idx]
-        else:
-            x_plot, y_plot, z_plot, f_plot = x, y, z, field
+        x_plot, y_plot, z_plot, f_plot = density_aware_downsample(
+            x, y, z, field, max_points
+        )
 
         cmin = float(field.min())
         cmax = float(field.max())
