@@ -397,6 +397,31 @@ elif view_tab == "Thermal Digital Twin":
         # -----------------------------------------
         if mode == "3D Scatter":
             fig = go.Figure()
+
+            # --- 3D SCATTER OF FIELD ---
+            fig.add_trace(go.Scatter3d(
+                x=x_plot,
+                y=y_plot,
+                z=z_plot,
+                mode="markers",
+                marker=dict(
+                    size=2.0,
+                    color=f_plot,
+                    colorscale="Turbo",
+                    cmin=cmin,
+                    cmax=cmax,
+                    opacity=0.6,
+                    colorbar=dict(
+                        title=dict(
+                            text=color_label,
+                            font=dict(color="black", size=14)
+                        ),
+                        tickfont=dict(color="black", size=12),
+                    ),
+                ),
+                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
+                              color_label + ': %{marker.color:.3f}<extra></extra>'
+            ))
             
             # --- OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
             try:
@@ -423,35 +448,8 @@ elif view_tab == "Thermal Digital Twin":
                     hoverinfo="skip"
                 ))
             except Exception as e:
-                st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")
-                
-            # --- 3D SCATTER OF FIELD ---
-            fig.add_trace(go.Scatter3d(
-                x=x_plot,
-                y=y_plot,
-                z=z_plot,
-                mode="markers",
-                marker=dict(
-                    size=2.0,
-                    color=f_plot,
-                    colorscale="Turbo",
-                    cmin=cmin,
-                    cmax=cmax,
-                    opacity=0.6,
-                    colorbar=dict(
-                        title=dict(
-                            text=color_label,
-                            font=dict(color="black", size=14)
-                        ),
-                        tickfont=dict(color="black", size=12),
-                    ),
-                ),
-                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
-                              color_label + ': %{marker.color:.3f}<extra></extra>'
-            ))
-
-
-                            
+                st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")  
+ 
             fig.update_layout(
                 height=700,
                 scene=dict(
