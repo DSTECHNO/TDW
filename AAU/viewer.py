@@ -434,7 +434,7 @@ elif view_tab == "Thermal Digital Twin":
                     i=gi,
                     j=gj,
                     k=gk,
-                    opacity=0.15,                 # 0.12–0.18 arası genelde iyi
+                    opacity=0.2,                 # 0.12–0.18 arası genelde iyi
                     color="lightgray",
                     name="DC Geometry",
                     showscale=False,
