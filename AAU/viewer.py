@@ -303,14 +303,14 @@ else:
 if view_tab == "Thermal Digital Twin":
     max_points = st.sidebar.slider(
         "Maximum Points (3D only)", 
-        min_value=10000, 
-        max_value=50000, 
-        value=25000,
-        step=5000,
+        min_value=1000, 
+        max_value=10000, 
+        value=5000,
+        step=1000,
         help="More points = slower performance"
     )
 else:
-    max_points = 20000
+    max_points = 5000
 
 # Modern "card" for total cells in sidebar
 if view_tab == "Thermal Digital Twin":
