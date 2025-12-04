@@ -119,7 +119,7 @@ def interpolate_slice(axis1_s, axis2_s, f_s, grid_resolution):
 # DENSITY-AWARE DOWNSAMPLING (MESH SIKLIĞINA GÖRE)
 # -------------------------------------------------
 @st.cache_data
-def density_aware_downsample(x, y, z, field, max_points: int, n_side: int = 20):
+def density_aware_downsample(x, y, z, field, max_points: int, n_side: int = 30):
     """
     Mesh'in sık olduğu bölgelerde daha az, seyrek olduğu bölgelerde göreceli olarak
     daha fazla nokta bırakacak şekilde downsample eder.
