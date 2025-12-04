@@ -423,7 +423,7 @@ elif view_tab == "Thermal Digital Twin":
                               color_label + ': %{marker.color:.3f}<extra></extra>'
             ))
 
-            # --- NEW: OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
+            # --- OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
             try:
                 gx, gy, gz, gi, gj, gk = load_outer_geometry("AAU/validationCase.vtk")
 
@@ -434,7 +434,7 @@ elif view_tab == "Thermal Digital Twin":
                     i=gi,
                     j=gj,
                     k=gk,
-                    opacity=0.2,                 # 0.12–0.18 arası genelde iyi
+                    opacity=0.12,                 
                     color="lightgray",
                     name="DC Geometry",
                     showscale=False,
@@ -442,7 +442,7 @@ elif view_tab == "Thermal Digital Twin":
                         ambient=1.0,
                         diffuse=0.0,
                         specular=0.0,
-                        roughness=1.0,
+                        roughness=0.0,
                         fresnel=0.0
                     ),
                     hoverinfo="skip"
