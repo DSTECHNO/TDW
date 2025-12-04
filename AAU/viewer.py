@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 from pyvista import UnstructuredGrid
+import pyvista as pv
 from scipy.interpolate import griddata
 
 # -------------------------------------------------
@@ -51,6 +52,33 @@ def load_npz_case(npz_filename: str):
     U = data["U"] if "U" in data else None
     mesh = UnstructuredGrid(cells, cell_types, points)
     return mesh, T, U
+# -------------------------------------------------
+# OUTER GEOMETRY (FROM VTK) LOAD
+# -------------------------------------------------
+@st.cache_data
+def load_outer_geometry(vtk_path: str):
+    """
+    Read VTK file, extract outer surface and triangulate it.
+    Returns coordinates and triangle indices for Plotly Mesh3d.
+    """
+    mesh = pv.read(vtk_path)
+    
+    # Outer surface
+    surface = mesh.extract_surface()
+    surface = surface.triangulate()  # ensure triangles
+
+    pts = surface.points  # (N, 3)
+    faces = surface.faces.reshape(-1, 4)  # [n_pts, i, j, k] for each face
+    triangles = faces[:, 1:]              # drop n_pts (always 3 after triangulate)
+
+    xg = pts[:, 0]
+    yg = pts[:, 1]
+    zg = pts[:, 2]
+    ig = triangles[:, 0]
+    jg = triangles[:, 1]
+    kg = triangles[:, 2]
+
+    return xg, yg, zg, ig, jg, kg
 
 # -------------------------------------------------
 # INTERPOLATION CACHING
@@ -371,6 +399,7 @@ elif view_tab == "Thermal Digital Twin":
         if mode == "3D Scatter":
             fig = go.Figure()
 
+            # --- 3D SCATTER OF FIELD ---
             fig.add_trace(go.Scatter3d(
                 x=x_plot,
                 y=y_plot,
@@ -394,6 +423,25 @@ elif view_tab == "Thermal Digital Twin":
                 hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
                               color_label + ': %{marker.color:.3f}<extra></extra>'
             ))
+
+            # --- NEW: OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
+            try:
+                gx, gy, gz, gi, gj, gk = load_outer_geometry("AAU/validationCase.vtk")
+
+                fig.add_trace(go.Mesh3d(
+                    x=gx,
+                    y=gy,
+                    z=gz,
+                    i=gi,
+                    j=gj,
+                    k=gk,
+                    opacity=0.2,            # %20 transparency
+                    color="lightgrey",
+                    name="DC Geometry",
+                    showscale=False
+                ))
+            except Exception as e:
+                st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")
 
             fig.update_layout(
                 height=700,
