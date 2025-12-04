@@ -471,7 +471,7 @@ elif view_tab == "Thermal Digital Twin":
                 z=z_plot,
                 mode="markers",
                 marker=dict(
-                    size=1.8,
+                    size=1,
                     color=f_plot,
                     colorscale="Turbo",
                     cmin=cmin,
