@@ -439,7 +439,7 @@ elif view_tab == "Thermal Digital Twin":
                     colorscale="Turbo",
                     cmin=cmin,
                     cmax=cmax,
-                    opacity=076,
+                    opacity=0.7,
                     colorbar=dict(
                         title=dict(
                             text=color_label,
