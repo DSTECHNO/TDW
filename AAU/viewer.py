@@ -53,6 +53,49 @@ def load_npz_case(npz_filename: str):
     mesh = UnstructuredGrid(cells, cell_types, points)
     return mesh, T, U
 # -------------------------------------------------
+# UNIFORM 3D DOWNSAMPLING (VOXEL TABANLI)
+# -------------------------------------------------
+@st.cache_data
+def downsample_uniform_3d(x, y, z, field, max_points: int):
+    """
+    Mesh merkezlerini değil, domain içinde yaklaşık uniform dağılmış
+    az sayıda nokta seçer. Voxel (3D grid) bazlı sampling.
+    """
+    N = x.size
+    if N <= max_points:
+        return x, y, z, field
+
+    # Hedef: n_side^3 ≈ max_points
+    n_side = int(round(max_points ** (1.0 / 3.0)))
+    n_side = max(n_side, 4)
+
+    xmin, xmax = float(x.min()), float(x.max())
+    ymin, ymax = float(y.min()), float(y.max())
+    zmin, zmax = float(z.min()), float(z.max())
+
+    # Bölümler arası sıfır bölme hatasını engellemek için epsilon
+    ex = xmax - xmin if xmax > xmin else 1e-9
+    ey = ymax - ymin if ymax > ymin else 1e-9
+    ez = zmax - zmin if zmax > zmin else 1e-9
+
+    ix = ((x - xmin) / ex * n_side).astype(int)
+    iy = ((y - ymin) / ey * n_side).astype(int)
+    iz = ((z - zmin) / ez * n_side).astype(int)
+
+    ix = np.clip(ix, 0, n_side - 1)
+    iy = np.clip(iy, 0, n_side - 1)
+    iz = np.clip(iz, 0, n_side - 1)
+
+    # Her voxel için tek bir temsilci nokta seç
+    key = ix + n_side * (iy + n_side * iz)
+    unique_keys, unique_idx = np.unique(key, return_index=True)
+
+    # Gerekiyorsa tekrar kırp (çok nadir gerek olur)
+    if unique_idx.size > max_points:
+        unique_idx = unique_idx[:max_points]
+
+    return x[unique_idx], y[unique_idx], z[unique_idx], field[unique_idx]
+# -------------------------------------------------
 # OUTER GEOMETRY (FROM VTK) LOAD
 # -------------------------------------------------
 @st.cache_data
@@ -380,14 +423,9 @@ elif view_tab == "Thermal Digital Twin":
         st.subheader(viz_title)
 
         # Downsampling for 3D
-        N = x.size
-        if N > max_points:
-            rng = np.random.default_rng(42)
-            idx = rng.choice(N, size=max_points, replace=False)
-            x_plot, y_plot, z_plot = x[idx], y[idx], z[idx]
-            f_plot = field[idx]
-        else:
-            x_plot, y_plot, z_plot, f_plot = x, y, z, field
+        x_plot, y_plot, z_plot, f_plot = downsample_uniform_3d(
+            x, y, z, field, max_points
+        )
 
         cmin = float(field.min())
         cmax = float(field.max())
