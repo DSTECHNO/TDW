@@ -434,10 +434,18 @@ elif view_tab == "Thermal Digital Twin":
                     i=gi,
                     j=gj,
                     k=gk,
-                    opacity=0.2,            # %20 transparency
-                    color="lightgrey",
+                    opacity=0.15,                 # 0.12–0.18 arası genelde iyi
+                    color="lightgray",
                     name="DC Geometry",
-                    showscale=False
+                    showscale=False,
+                    lighting=dict(
+                        ambient=1.0,
+                        diffuse=0.0,
+                        specular=0.0,
+                        roughness=1.0,
+                        fresnel=0.0
+                    ),
+                    hoverinfo="skip"
                 ))
             except Exception as e:
                 st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")
