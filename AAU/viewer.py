@@ -409,7 +409,7 @@ elif view_tab == "Thermal Digital Twin":
                     i=gi,
                     j=gj,
                     k=gk,
-                    opacity=0.2,                 
+                    opacity=0.25,                 
                     color="gray",
                     name="DC Geometry",
                     showscale=False,
@@ -438,7 +438,7 @@ elif view_tab == "Thermal Digital Twin":
                     colorscale="Turbo",
                     cmin=cmin,
                     cmax=cmax,
-                    opacity=0.6,
+                    opacity=0.2,
                     colorbar=dict(
                         title=dict(
                             text=color_label,
