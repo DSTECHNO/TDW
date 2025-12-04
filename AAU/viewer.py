@@ -79,36 +79,6 @@ def load_outer_geometry(vtk_path: str):
     kg = triangles[:, 2]
 
     return xg, yg, zg, ig, jg, kg
-@st.cache_data
-def load_outer_edges(vtk_path: str):
-    """
-    Read VTK file and extract only outer edges for wireframe plotting.
-    Returns x, y, z arrays with NaNs to separate line segments.
-    """
-    mesh = pv.read(vtk_path)
-    surface = mesh.extract_surface()
-
-    # Sadece sınır kenarlarını al
-    edges = surface.extract_feature_edges(
-        boundary_edges=True,
-        feature_edges=False,
-        manifold_edges=False,
-        non_manifold_edges=False,
-    )
-
-    # Her line için (p0 -> p1) segmentleri toplayalım
-    pts = edges.points
-    lines = edges.lines.reshape(-1, 3)  # [n_pts, id0, id1]
-
-    xs, ys, zs = [], [], []
-    for _, i0, i1 in lines:
-        p0 = pts[i0]
-        p1 = pts[i1]
-        xs.extend([p0[0], p1[0], np.nan])
-        ys.extend([p0[1], p1[1], np.nan])
-        zs.extend([p0[2], p1[2], np.nan])
-
-    return np.array(xs), np.array(ys), np.array(zs)
 # -------------------------------------------------
 # INTERPOLATION CACHING
 # -------------------------------------------------
@@ -449,29 +419,28 @@ elif view_tab == "Thermal Digital Twin":
                         tickfont=dict(color="black", size=12),
                     ),
                 ),
-                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>'
-                              + color_label + ': %{marker.color:.3f}<extra></extra>'
+                hovertemplate='X: %{x:.3f}<br>Y: %{y:.3f}<br>Z: %{z:.3f}<br>' + 
+                              color_label + ': %{marker.color:.3f}<extra></extra>'
             ))
 
-            # --- NEW: OUTER GEOMETRY AS WIREFRAME ---
+            # --- NEW: OUTER GEOMETRY FROM VTK AS TRANSPARENT SHELL ---
             try:
-                ex, ey, ez = load_outer_edges("AAU/validationCase.vtk")
+                gx, gy, gz, gi, gj, gk = load_outer_geometry("AAU/validationCase.vtk")
 
-                fig.add_trace(go.Scatter3d(
-                    x=ex,
-                    y=ey,
-                    z=ez,
-                    mode="lines",
-                    line=dict(
-                        width=2,
-                        color="rgba(120, 120, 120, 0.6)",  # hafif gri, yarı şeffaf
-                    ),
+                fig.add_trace(go.Mesh3d(
+                    x=gx,
+                    y=gy,
+                    z=gz,
+                    i=gi,
+                    j=gj,
+                    k=gk,
+                    opacity=0.2,            # %20 transparency
+                    color="lightgrey",
                     name="DC Geometry",
-                    hoverinfo="skip",
-                    showlegend=False,
+                    showscale=False
                 ))
             except Exception as e:
-                st.warning(f"Outer geometry (validationCase.vtk) wireframe could not be loaded: {e}")
+                st.warning(f"Outer geometry (validationCase.vtk) could not be loaded: {e}")
 
             fig.update_layout(
                 height=700,
