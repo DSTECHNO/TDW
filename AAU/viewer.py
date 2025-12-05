@@ -364,7 +364,7 @@ with logo_col2:
     """, unsafe_allow_html=True)
 
 # Field selection
-if view_tab == "Thermal Digital Twin":
+if view_tab == "Thermal Twin":
     if field_choice == "Temperature":
         field = T_field - 273.15  # Convert Kelvin to Celsius
         color_label = "T [°C]"
