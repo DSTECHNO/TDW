@@ -241,7 +241,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Thermal Digital Twin for Aalborg University (AAU) Pilot")
+st.title("Thermal Twin for Aalborg University (AAU) Pilot")
 
 mesh, T_field, U_field = load_npz_case("AAU/validationCase.npz")
 
@@ -259,10 +259,10 @@ total_cells = x.size
 st.sidebar.markdown(
     """
     <h2 style='text-align: center; font-size:20px; margin-bottom: 0.2rem;'>
-        Thermal Digital Twin for Data Centres
+        DC-T²: Data Centre Thermal Twin
     </h2>
-    <p style='text-align: center; font-size:14px; margin-top: 0rem; color:#6b7280;'>
-        Powered by D&S Tech
+    <p style='text-align: left; font-size:12px; margin-top: 0rem; color:#6b7280;'>
+        CFD-Enabled Thermal Twin for Data Centres
     </p>
     <hr>
     """,
@@ -377,7 +377,7 @@ if view_tab == "Thermal Digital Twin":
 # -------------------------------------------------
 if view_tab == "About":
     st.markdown("""
-    ## AAU Data Centre Overview
+    ## Thermal Twin for Aalborg University (AAU) Pilot
     """)
     
     # AAU Building Image
