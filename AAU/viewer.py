@@ -407,11 +407,10 @@ if view_tab == "About":
     - **Rack Air Flow:** 0.033 - 0.3 kg/s
 
     st.markdown("""
-    This interactive tool visualizes the thermal dynamics of the pilot data centre using a high-resolution Computational Fluid Dynamics (CFD) model. The simulation results have been rigorously validated against experimental measurements, including airflow velocities and server inlet temperatures, to ensure high accuracy. This validated digital twin forms the basis for our KPI-informed retrofitting strategies, demonstrating significant potential for energy efficiency improvements. For a comprehensive analysis of the methodology and results, please refer to our published research.
+This interactive tool visualizes the thermal dynamics of the pilot data centre using a high-resolution Computational Fluid Dynamics (CFD) model. The simulation results have been rigorously validated against experimental measurements, including airflow velocities and server inlet temperatures, to ensure high accuracy. This validated digital twin forms the basis for our KPI-informed retrofitting strategies, demonstrating significant potential for energy efficiency improvements. For a comprehensive analysis of the methodology and results, please refer to our published research.
 
-    **Energy efficiency enhancement in two European data centers through CFD modeling** – 
-    [Read the paper](https://www.nature.com/articles/s41598-025-11048-0)
-    """)
+**Energy efficiency enhancement in two European data centers through CFD modeling** - [Read the paper](https://www.nature.com/articles/s41598-025-11048-0)
+""", unsafe_allow_html=True)
 
     ---
     
