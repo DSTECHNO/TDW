@@ -383,41 +383,51 @@ if view_tab == "About":
         width=500
     )
     
-    st.markdown("""
-    ### Facility Information
-    - **Location:** Aalborg University, Denmark
-    - **Cooling Technology:** Air-cooled infrastructure
-    
-    ### IT Infrastructure
-    - **Number of Server Racks:** 5 (Rack 2-6)
-    - **Total IT Capacity:** 2.24 kW
-    - **Rack Power Range:** 219 W - 1,000 W
-    - **Configuration:** Variable thermal loads
-    
-    ### Cooling System
-    - **Cooling Method:** Air-based cooling units
-    - **Number of Cooling Units:** 2
-    - **Total Cooling Capacity:** 2.27 kW
-    - **Air Flow Rate:** 1.0 - 1.4 kg/s per unit
-    
-    ### Operating Conditions
-    - **Ambient Temperature:** 21.9°C
-    - **Inlet Air Temperature:** 21-23°C
-    - **Outlet Air Temperature:** 23-25°C
-    - **Rack Air Flow:** 0.033 - 0.3 kg/s
+    if view_tab == "About":
+    st.image(
+        "https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/aau.png",
+        caption="AAU BUILD - Institut for Byggeri, By og Miljø",
+        width=500
+    )
 
     st.markdown("""
+### Facility Information
+- **Location:** Aalborg University, Denmark
+- **Cooling Technology:** Air-cooled infrastructure
+
+### IT Infrastructure
+- **Number of Server Racks:** 5 (Rack 2-6)
+- **Total IT Capacity:** 2.24 kW
+- **Rack Power Range:** 219 W - 1,000 W
+- **Configuration:** Variable thermal loads
+
+### Cooling System
+- **Cooling Method:** Air-based cooling units
+- **Number of Cooling Units:** 2
+- **Total Cooling Capacity:** 2.27 kW
+- **Air Flow Rate:** 1.0 - 1.4 kg/s per unit
+
+### Operating Conditions
+- **Ambient Temperature:** 21.9°C
+- **Inlet Air Temperature:** 21-23°C
+- **Outlet Air Temperature:** 23-25°C
+- **Rack Air Flow:** 0.033 - 0.3 kg/s
+""")
+
+    st.markdown("""
+### Scientific Validation & Methodology
+
 This interactive tool visualizes the thermal dynamics of the pilot data centre using a high-resolution Computational Fluid Dynamics (CFD) model. The simulation results have been rigorously validated against experimental measurements, including airflow velocities and server inlet temperatures, to ensure high accuracy. This validated digital twin forms the basis for our KPI-informed retrofitting strategies, demonstrating significant potential for energy efficiency improvements. For a comprehensive analysis of the methodology and results, please refer to our published research.
 
 **Energy efficiency enhancement in two European data centers through CFD modeling** - [Read the paper](https://www.nature.com/articles/s41598-025-11048-0)
-""", unsafe_allow_html=True)
+""")
 
-    ---
-    
-    <h3 style='font-style: italic;'>D&S Tech | Digital Twin Solutions</h3>
-    <p style='font-size: 14px;'><a href='https://dstechs.net/' target='_blank'>https://dstechs.net/</a></p>
-    <p style='font-size: 16px;'>Get Your Thermal Digital Twin. Contact us today: <strong>datacenter@dstechs.net</strong></p>
-    """, unsafe_allow_html=True)
+    st.markdown("""
+---
+<h3 style='font-style: italic;'>D&S Tech | Digital Twin Solutions</h3>
+<p style='font-size: 14px;'><a href='https://dstechs.net/' target='_blank'>https://dstechs.net/</a></p>
+<p style='font-size: 16px;'>Get Your Thermal Digital Twin. Contact us today: <strong>datacenter@dstechs.net</strong></p>
+""", unsafe_allow_html=True)
 
 # -------------------------------------------------
 # RESULTS PAGE
