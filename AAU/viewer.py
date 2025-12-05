@@ -273,12 +273,12 @@ st.sidebar.markdown(
 view_tab = st.sidebar.radio("", ["Thermal Twin", "About"], index=0)
 
 # Only show settings when in Results tab
-if view_tab == "Thermal Digital Twin":
+if view_tab == "Thermal Twin":
     field_choice = st.sidebar.selectbox("Field to Display", ["Temperature", "Airflow Velocity"])
 mode = st.sidebar.selectbox("View Mode", ["3D Scatter", "2D Slice"]) if view_tab == "Thermal Digital Twin" else None
 
 # Slice axis selection (only for 2D mode)
-if view_tab == "Thermal Digital Twin" and mode == "2D Slice":
+if view_tab == "Thermal Twin" and mode == "2D Slice":
     slice_axis = st.sidebar.selectbox("Slice Axis", ["X", "Y", "Z"])
     
     # Slice thickness control: 1-5%
