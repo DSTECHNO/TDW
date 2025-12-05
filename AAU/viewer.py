@@ -275,7 +275,7 @@ view_tab = st.sidebar.radio("", ["Thermal Twin", "About"], index=0)
 # Only show settings when in Results tab
 if view_tab == "Thermal Twin":
     field_choice = st.sidebar.selectbox("Field to Display", ["Temperature", "Airflow Velocity"])
-mode = st.sidebar.selectbox("View Mode", ["3D Scatter", "2D Slice"]) if view_tab == "Thermal Digital Twin" else None
+mode = st.sidebar.selectbox("View Mode", ["3D Scatter", "2D Slice"]) if view_tab == "Thermal Twin" else None
 
 # Slice axis selection (only for 2D mode)
 if view_tab == "Thermal Twin" and mode == "2D Slice":
@@ -300,7 +300,7 @@ else:
     grid_resolution = 700
 
 # Point count slider: 10000-50000
-if view_tab == "Thermal Digital Twin":
+if view_tab == "Thermal Twin":
     max_points = st.sidebar.slider(
         "Maximum Points (3D only)", 
         min_value=1000, 
@@ -313,7 +313,7 @@ else:
     max_points = 3000
 
 # Modern "card" for total cells in sidebar
-if view_tab == "Thermal Digital Twin":
+if view_tab == "Thermal Twin":
     displayed_points = min(total_cells, max_points)
     st.sidebar.markdown(
         f"""
