@@ -261,7 +261,7 @@ st.sidebar.markdown(
     <h2 style='text-align: center; font-size:20px; margin-bottom: 0.2rem;'>
         DC-T²: Data Centre Thermal Twin
     </h2>
-    <p style='text-align: left; font-size:12px; margin-top: 0rem; color:#6b7280;'>
+    <p style='text-align: left; font-size:14px; margin-top: 0rem; color:#6b7280;'>
         CFD-Enabled Thermal Twin for Data Centres
     </p>
     <hr>
@@ -376,10 +376,6 @@ if view_tab == "Thermal Digital Twin":
 # ABOUT PAGE
 # -------------------------------------------------
 if view_tab == "About":
-    st.markdown("""
-    ## Thermal Twin for Aalborg University (AAU) Pilot
-    """)
-    
     # AAU Building Image
     st.image(
         "https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/aau.png",
