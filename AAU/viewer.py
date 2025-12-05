@@ -375,15 +375,12 @@ if view_tab == "Thermal Twin":
 # -------------------------------------------------
 # ABOUT PAGE
 # -------------------------------------------------
+# -------------------------------------------------
+# ABOUT PAGE
+# -------------------------------------------------
 if view_tab == "About":
+
     # AAU Building Image
-    st.image(
-        "https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/aau.png",
-        caption="AAU BUILD - Institut for Byggeri, By og Miljø",
-        width=500
-    )
-    
-    if view_tab == "About":
     st.image(
         "https://raw.githubusercontent.com/DSTECHNO/TDW/main/AAU/aau.png",
         caption="AAU BUILD - Institut for Byggeri, By og Miljø",
