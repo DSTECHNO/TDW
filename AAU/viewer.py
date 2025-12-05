@@ -270,7 +270,7 @@ st.sidebar.markdown(
 )
 
 # Tab selection
-view_tab = st.sidebar.radio("", ["Thermal Digital Twin", "About"], index=0)
+view_tab = st.sidebar.radio("", ["Thermal Twin", "About"], index=0)
 
 # Only show settings when in Results tab
 if view_tab == "Thermal Digital Twin":
